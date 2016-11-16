@@ -1,11 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../containers/App.jsx';
-import AppRoute from '../containers/AppRoute.jsx';
+import ReactDOM from 'react-dom'
+import { Router, hashHistory } from 'react-router'
 
-ReactDOM.render(
-  <App>
-    <AppRoute />
-  </App>,
-  document.getElementById('app')
-);
+import routes from '../Routes.jsx'
+import GuestStore from '../stores/GuestStore'
+
+const initialState = window.initialState || {
+  guests:[]
+}
+var store = GuestStore.fromJS(initialState.guests)
+
+
+ReactDOM.render((
+  <Router history={hashHistory} routes={routes(store)}>
+  </Router>
+), document.querySelector("#app"))

@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import App from '../containers/App.jsx';
-import Login from '../containers/Login.jsx';
+import { Router, hashHistory } from 'react-router'
+import routes from '../Routes.jsx'
+import GuestStore from '../stores/GuestStore'
+
+const initialState = window.initialState || {
+  guests:[]
+}
+var store = GuestStore.fromJS(initialState.guests)
 
 // Disable 'no-undef' rule for this export because it's required from server, which uses nodeJs
 // eslint-disable-next-line no-undef
 module.exports = ReactDOMServer.renderToString(
-  <App>
-    <Login />
-  </App>
+  <Router history={hashHistory} routes={routes(store)}>
+  </Router>
 );

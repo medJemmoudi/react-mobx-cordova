@@ -54,7 +54,7 @@ const webpackConfig = {
     new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       minify: {},
-      getAppContent: () => (__SSR__ ? getServerString() : ''),
+      getAppContent: () => (__SSR__ ? '' : ''),
       template: './src/index.ejs', // Load a custom template
       inject: 'body' // Inject all scripts into the body
     })
@@ -74,23 +74,12 @@ const webpackConfig = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'stage-0']
-        }
+        loaders: ['babel']
       },
       {
         test: /\.jsx$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'stage-0', 'react'],
-          env: {
-            development: {
-              presets: ['react-hmre']
-            }
-          }
-        }
+        loaders: ['babel']
       },
       {
         test: /\.(scss|css)$/,
@@ -152,10 +141,10 @@ getServerString = () => {
     if (err) {
       throw err;
     }
-    const fileContent = fs.readFileSync('/bundle.js').toString('ascii');
+    /*const fileContent = fs.readFileSync('/bundle.js').toString('ascii');
     // Using eval because we can't require from `memory-fs`
     data = requireFromString(fileContent);
-    sync = false;
+    sync = false;*/
   });
 
   while (sync) {
